@@ -3,6 +3,7 @@ package edge.core.macro;
 import haxe.macro.Context;
 import haxe.macro.Expr;
 import haxe.macro.Type;
+using haxe.macro.TypeTools;
 using thx.macro.MacroFields;
 import Type in RType;
 
@@ -17,6 +18,17 @@ class Macros {
       })
       .filter(function(field) return field != null);
   }
+  
+  public static function getClassVarAsFunctionArgs(fields : Array<ClassField>) : Array<FunctionArg> {
+    return fields
+      .map(function(field) return switch field.kind {
+        case FVar(t, _):
+          { name : field.name, type : field.type.follow().toComplexType(), opt : null, value : null, meta : null }
+        case _:
+          null;
+      })
+      .filter(function(field) return field != null);
+  }
 
   public static function createVarField(name : String, type : ComplexType) : Field {
     return {
@@ -26,10 +38,10 @@ class Macros {
     };
   }
 
-  public static function createFunctionField(name : String, ?args : Array<FunctionArg>, ?ret : ComplexType, ?expr : Expr) : Field {
+  public static function createFunctionField(name : String, ?args : Array<FunctionArg>, ?ret : ComplexType, ?expr : Expr, ?access : Array<Access>) : Field {
     return {
       name: name,
-      access: [APublic],
+      access: null != access ? access : [APublic],
       kind: FFun({
         ret  : null != ret ? ret : macro : Void,
         expr : null != expr ? expr : macro {},
@@ -157,5 +169,13 @@ class Macros {
       case _:
         return null;
     }
+  }
+
+  public static function getAncestor(type : ClassType):Null<ClassType>
+  {
+    var c = type.superClass;
+    if (c == null) return null;
+
+    return c.t.get();
   }
 }

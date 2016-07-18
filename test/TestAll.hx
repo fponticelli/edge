@@ -240,6 +240,21 @@ class TestAll {
     Assert.equals(0, system.count);
   }
 
+  public function testInheritedConstructor() {
+    for(field in haxe.rtti.Rtti.getRtti(E).fields) {
+      if (field.name == "new") {
+        switch (field.type) {
+          case CFunction(args, returnType):
+              Assert.equals(args.length, 3);
+          default:
+        }
+      }
+    }
+  }
+
+  public function testInheritedToString()
+    Assert.equals((new E(1, 2, 3)).toString(), "E(foo=$foo,bar=$bar,foobar=$foobar)");
+
   public function assertNumberOfComponents(entity : Entity, qt : Int, ?pos : haxe.PosInfos)
     Assert.equals(qt, entity.components().toArray().length, pos);
 
@@ -372,7 +387,18 @@ class B {
   public function new(){}
 }
 
+class C implements IComponent {
+  public var foo:Int;
+}
 
+class D extends C {
+  public var bar:Int;
+}
+
+@:rtti
+class E extends D {
+  public var foobar:Int;
+}
 
 class ReturnSystem implements ISystem {
   public var count(default, null) = 0;
