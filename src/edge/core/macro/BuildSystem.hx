@@ -70,7 +70,7 @@ class BuildSystem {
             case TPath(p):
               if(p.params.length > 0)
                 Context.error('argument `${arg.name}` of ${clsName()}.update() cannot have type parameters', Context.currentPos());
-              var t = Context.getType(p.name);
+              var t = Context.getType(p.name).follow();
               switch t {
                 case TInst(s, _) if(s.toString() != "String"):
                   // TODO, should we support enums?
