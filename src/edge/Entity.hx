@@ -32,6 +32,9 @@ class Entity {
     map = new Map();
   }
 
+  inline public function get<T>(type : Class<T>): Null<T>
+    return cast map.get(Type.getClassName(type));
+
   public function exists(component : {})
     return existsType(Type.getClass(component));
 
