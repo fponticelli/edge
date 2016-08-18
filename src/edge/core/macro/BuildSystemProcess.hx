@@ -121,7 +121,7 @@ class BuildSystemProcess {
   static function injectUpdate(systemType : ClassType, systemFields : Array<Field>, fields : Array<Field>) {
     var exprs = [];
     if(hasVarField(systemFields, "engine"))
-      exprs.push(macro system.engine = engine);
+      exprs.push(macro system.engine = cast engine); // TODO the cast is ugly
     if(hasVarField(systemFields, "timeDelta"))
       exprs.push(macro system.timeDelta = delta);
 

@@ -21,6 +21,7 @@ class BuildSystem {
     makePublic(fields, "entity");
     makePublic(fields, "timeDelta");
     makePublic(fields, "before");
+    makePublic(fields, "after");
     injectSystemProcess(fields, Context.getLocalClass());
     return fields;
   }
@@ -69,16 +70,16 @@ class BuildSystem {
           switch arg.type {
             case TPath(p):
               if(p.params.length > 0)
-                Context.error('argument `${arg.name}` of ${clsName()}.update() cannot have type parameters', Context.currentPos());
-              var t = Context.getType(p.name).follow();
+                Context.error('argument `${arg.name}` of ${clsName()}.update() cannot have type parameters', field.pos);
+              var t = try Context.getType(p.name).follow() catch(e: Dynamic) { Context.error('unable to find type ${p.name}', field.pos); };
               switch t {
                 case TInst(s, _) if(s.toString() != "String"):
                   // TODO, should we support enums?
                 case _:
-                  Context.error('argument `${arg.name}` of ${clsName()}.update() is not a class instance', Context.currentPos());
+                  Context.error('argument `${arg.name}` of ${clsName()}.update() is not a class instance', field.pos);
               }
             case _:
-              Context.error('argument `${arg.name}` of ${clsName()}.update() is not a class instance', Context.currentPos());
+              Context.error('argument `${arg.name}` of ${clsName()}.update() is not a class instance', field.pos);
           }
         }
         var ret = f.ret;
