@@ -253,7 +253,7 @@ class TestAll {
   }
 
   public function testInheritedToString()
-    Assert.equals((new E(1, 2, 3)).toString(), "E(foo=$foo,bar=$bar,foobar=$foobar)");
+    Assert.equals((new E(1, 2, 3)).toString(), "E(foo=1,bar=2,foobar=3)");
 
   public function assertNumberOfComponents(entity : Entity, qt : Int, ?pos : haxe.PosInfos)
     Assert.equals(qt, entity.components().toArray().length, pos);

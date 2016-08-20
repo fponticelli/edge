@@ -34,7 +34,7 @@ class BuildComponent {
         args = funArgs.concat(args);
         ancestorArgs = funArgs.concat(ancestorArgs);
         type = ancestor;
-      } while((ancestor = getAncestor(type)) != null);      
+      } while((ancestor = getAncestor(type)) != null);
 
       var a = ancestorArgs.map(function(arg) return macro $i{arg.name});
       init.unshift(macro super($a{a}));
@@ -57,11 +57,12 @@ class BuildComponent {
       } while((ancestor = getAncestor(type)) != null);
     }
 
-    var cls  = clsName().split(".").pop(),
+    var cls = clsName().split(".").pop(),
         params = args
-          .map(function(arg) return '${arg.name}=$' + arg.name)
-          .join(","),
-        s = 'return \'$cls($params)\'';
+          // .map(function(arg) return '"${arg.name}="+' + arg.name+'+')
+          .map(function(arg) return '"${arg.name}="+' + arg.name)
+          .join('+","+'),
+        s = 'return "$cls("+$params+")"';
     fields.push(createFunctionField(
       "toString",
       [],

@@ -1,34 +1,32 @@
 package edge;
 
+import thx.OrderedMap;
+
 class View<T : {}> {
-  public var count(default, null) : Int;
-  var map : Map<Entity, T>;
+  // public var count(default, null) : Int;
+  public var map(default, null): OrderedMap<Entity, { entity : Entity, data : T }>;
+  public var count(get, null): Int;
   public function new() {
-    map = new Map();
-    count = 0;
+    map = OrderedMap.createObject();
+    // count = 0;
   }
 
-  // TODO optimize
-  public function iterator() : Iterator<ViewData<T>> {
-    var keys = map.keys(),
-        holder = { entity : null, data : null };
-    return {
-      hasNext : function() {
-        return keys.hasNext();
-      },
-      next : function() {
-        var key = keys.next();
-        holder.entity = key;
-        holder.data = map.get(key);
-        return holder;
-      }
-    };
-  }
+  public function at(index: Int)
+    return map.at(index);
+
+  // public function iterator()
+  //   return map.iterator();
+
+  function get_count()
+    return map.length;
+
+  public function iterator() : Iterator<ViewData<T>>
+    return map.iterator();
 
   function tryAdd(entity : Entity, data : T) {
     if(map.exists(entity)) return false;
-    map.set(entity, data);
-    count++;
+    map.set(entity, { entity : entity, data : data });
+    // count++;
     return true;
   }
 
@@ -36,7 +34,7 @@ class View<T : {}> {
     var o = map.get(entity);
     if(null == o) return null;
     map.remove(entity);
-    count--;
-    return o;
+    // count--;
+    return o.data;
   }
 }
