@@ -1,0 +1,8 @@
+-cp src
+-cp ../src
+-lib thx.core
+-lib thx.benchmark
+-main TestView
+-cpp bin/bench
+
+# -cmd node bin/index.js
