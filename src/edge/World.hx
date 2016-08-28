@@ -14,10 +14,10 @@ class World {
   var cancel : Void -> Void;
   var remainder : Float;
   public function new(?delta : Float = 16, ?schedule : (Float -> Void) -> (Void -> Void)) {
-    engine  = new Engine();
-    frame   = engine.createPhase();
-    physics = engine.createPhase();
-    render  = engine.createPhase();
+    engine = new Engine();
+    frame     = engine.createPhase();
+    physics   = engine.createPhase();
+    render    = engine.createPhase();
     remainder = 0;
     running = false;
     this.delta = delta;
