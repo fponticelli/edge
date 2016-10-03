@@ -189,7 +189,7 @@ ${viewFieldName}Added
 
 The same signature with `Removed` can be used to define a method that does some cleanup when an entity is unpaired from a view.
 
-A special `View` is created for the method `update`. For that you can define either, both or neither of `updateAdded`/`updateRemoved` methods.
+A special `View` is created for the method `update` called `updateItems`. For that you can define either, both or neither of `updateAdded`/`updateRemoved` methods.
 
 For this `update` function:
 
