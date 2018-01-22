@@ -63,6 +63,7 @@ class BuildComponent {
           .map(function(arg) return '"${arg.name}="+' + arg.name)
           .join('+","+'),
         s = 'return "$cls("+$params+")"';
+    if (args.length == 0) s = 'return "$cls()"';
     fields.push(createFunctionField(
       "toString",
       [],
